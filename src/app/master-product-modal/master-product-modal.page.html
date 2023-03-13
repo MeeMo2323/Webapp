@@ -1,0 +1,147 @@
+<!--<ion-header>
+  <ion-toolbar>
+    <ion-title>master-product-modal</ion-title>
+  </ion-toolbar>
+</ion-header>-->
+
+<ion-content>
+  <div class="container">
+    <div class="col-md-7 col-lg-12 mt-2">
+      <div class="row g-3">
+        <div class="col-sm-6">
+          <h4 class="mb-3">ข้อมูลพื้นฐาน - สินค้า / {{this.oProduct.PRODUCT_ID!=""?"แก้ไขรายการ":"เพิ่มรายการ"}}</h4>
+        </div>
+        <div class="col-sm-6 ">
+          <button type="button" class="btn btn-outline-danger float-end ms-2" (click)="dismiss()">ยกเลิก</button>
+          <button type="button" class="btn btn-outline-success float-end" (click)="validToSaveData()">บันทึก</button>
+        </div>
+      </div>
+
+      <form class="needs-validation" novalidate>
+        <div class="row g-3">
+          <div class="col-sm-12">
+            <!--<label for="firstName" class="form-label me-5">ประเภทสินค้า</label>-->
+            <div class="form-check-inline">
+              <input id="MT_PRODUCT_TYPE1" name="MT_PRODUCT_TYPE" type="radio" class="form-check-input me-2"
+                (change)="genProductCode()" [(ngModel)]="oProduct.PRODUCT_TYPE_ID" [value]="1" required>
+              <label class="form-check-label" for="MT_PRODUCT_TYPE1">สินทรัพย์<span style="color:red">*</span></label>
+            </div>
+            <div class="form-check-inline">
+              <input id="MT_PRODUCT_TYPE2" name="MT_PRODUCT_TYPE" type="radio" class="form-check-input me-2"
+                (change)="genProductCode()" [(ngModel)]="oProduct.PRODUCT_TYPE_ID" [value]="2" required>
+              <label class="form-check-label" for="MT_PRODUCT_TYPE2">วัสดุสิ้นเปลือง<span
+                  style="color:red">*</span></label>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <label for="firstName" class="form-label" style="display: block;">กลุ่มสินค้าหลัก<span
+                style="color:red">*</span></label>
+            <select class="form-select" name="PRODUCT_GROUP_ID" [(ngModel)]="oProduct.PRODUCT_GROUP_ID"
+              (change)="genProductCode();getAllProductSubGroup();" required>
+              <option value="">ระบุกลุ่มสินค้าหลัก</option>
+              <option *ngFor="let item of resProductGroup" value="{{item.PRODUCT_GROUP_ID}}">{{item.PRODUCT_GROUP_DESC}}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-sm-3">
+            <label for="lastName" class="form-label" style="display: block;">กลุ่มสินค้าย่อย<span
+                style="color:red">*</span></label>
+            <select class="form-select" name="PRODUCT_SUBGROUP_ID" [(ngModel)]="oProduct.PRODUCT_SUBGROUP_ID"
+              (change)="genProductCode()" required>
+              <option value="">ระบุกลุ่มสินค้าย่อย</option>
+              <option *ngFor="let item of resProductSubGroup" value="{{item.PRODUCT_SUBGROUP_ID}}">
+                {{item.PRODUCT_SUBGROUP_DESC}}</option>
+            </select>
+          </div>
+
+          <div class="col-sm-3">
+            <label for="firstName" class="form-label" style="display: block;">ยุค</label>
+            <select class="form-select" name="GENERATION_ID" [(ngModel)]="oProduct.GEN_ID" required>
+              <option value="">-ระบุยุค-</option>
+              <option *ngFor="let item of resGeneration" value="{{item.GEN_ID}}">{{item.GENERATION_DESC}}</option>
+            </select>
+          </div>
+
+          <div class="col-sm-3">
+            <label for="lastName" class="form-label" style="display: block;">ฉาก</label>
+            <select class="form-select" name="SCENE_ID" [(ngModel)]="oProduct.SCENE_ID" required>
+              <option value="">-ระบุฉาก-</option>
+              <option *ngFor="let item of resScene" value="{{item.SCENE_ID}}">{{item.SCENE_DESC}}</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label for="PRODUCT_CODE" class="form-label" style="display: block;">รหัสสินค้า</label>
+            <input type="text" class="form-control" id="PRODUCT_CODE" name="PRODUCT_CODE" placeholder=""
+              [(ngModel)]="this.oProduct.PRODUCT_CODE" disabled>
+          </div>
+
+          <div class="col-sm-6">
+            <label for="PRODUCT_DESC" class="form-label" style="display: block;">ชื่อสินค้า<span
+                style="color:red">*</span></label>
+            <input type="text" class="form-control" id="PRODUCT_DESC" name="PRODUCT_DESC" placeholder=""
+              [(ngModel)]="this.oProduct.PRODUCT_DESC" required>
+          </div>
+
+          <div class="col-md-3">
+            <label for="UOM_ID" class="form-label" style="display: block;">หน่วยนับ<span
+                style="color:red">*</span></label>
+            <select class="form-select" id="UOM_ID" name="UOM_ID" [(ngModel)]="this.oProduct.UOM_ID" required>
+              <option value="">--ระบุหน่วยนับ--</option>
+              <option *ngFor="let item of resUOM" value="{{item.UOM_ID}}">{{item.UOM_DESC}}</option>
+            </select>
+          </div>
+
+
+        </div>
+
+        <!--<hr class="my-4">-->
+
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mt-2">
+          <div class="col">
+            <div class="card shadow-sm">
+              <img class="bd-placeholder-img card-img-to" width="100%" height="225" src="{{imgURL1}}"
+                onerror="this.src='assets/img-asset/no-image-available-icon-6.png';">
+              <!--<svg class="bd-placeholder-img card-img-top"  width="100%" height="225" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+            -->
+              <div class="card-body">
+                <input type="file" class="form-control" id="customFile" #file1 type="file" accept='image/*'
+                  (change)="preview(file1.files,1)" />
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card shadow-sm">
+              <img class="bd-placeholder-img card-img-to" width="100%" height="225" src="{{imgURL2}}"
+                onerror="this.src='assets/img-asset/no-image-available-icon-6.png';">
+              <!--<svg class="bd-placeholder-img card-img-top" width="100%" height="225" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+            -->
+              <div class="card-body">
+                <input type="file" class="form-control" id="customFile" #file2 type="file" accept='image/*'
+                  (change)="preview(file2.files,2)" />
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card shadow-sm">
+              <img class="bd-placeholder-img card-img-to" width="100%" height="225" src="{{imgURL3}}"
+                onerror="this.src='assets/img-asset/no-image-available-icon-6.png';">
+              <!--<svg class="bd-placeholder-img card-img-top" width="100%" height="225"  role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+            -->
+              <div class="card-body">
+                <input type="file" class="form-control" id="customFile" #file3 type="file" accept='image/*'
+                  (change)="preview(file3.files,3)" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </form>
+
+    </div>
+
+  </div>
+</ion-content>

@@ -1,0 +1,35 @@
+<ion-content>
+  <div class="container" style="background-color: rgb(240, 235, 235); " >
+    <div class="col-md-7 col-lg-12 mt-2">
+      <div class="row g-3">
+        <div class="col-sm-6"> 
+          <h4 class="mb-3">เอกสารแนบ</h4>
+        </div>
+        <div class="col-sm-6 "> 
+          <button type="button" class="btn btn-outline-danger float-end ms-2" (click)="dismiss()" >ปิดหน้าต่าง</button>      
+        </div>
+      </div>       
+      <form class="needs-validation mt-4 " novalidate>
+        <div class="row g-3">      
+          <div class="col-sm-12">
+            <label for="FILE_NAME" class="form-label" style="display: block;">ชื่อไฟล์<span style="color:red">*</span></label>
+            <div [hidden]="isContainAttached">
+              <input type="file" class="form-control" (change)="preview(file1.files)" id="customFile" #file1 type="file" />
+              <button type="button" class="btn btn-outline-primary float-start mt-2 mb-3" (click)="uploadData()" >อัพโหลด</button>  
+            </div>
+            <div [hidden]="!isContainAttached">
+              <label for="attachfileName" class="form-label" style="display: block;">{{pFileName}}</label>
+              <button type="button" class="btn btn-outline-primary float-start mt-2 me-2 mb-3" (click)="download(pFileName)" >ดาวน์โหลด</button>    
+              <button type="button" class="btn btn-outline-danger float-start mt-2 mb-3" (click)="confirmDeleteAttach()" >ลบ</button>   
+
+            </div>
+           
+          </div>  
+        
+                
+        </div>  
+        <!--<hr class="my-4">--> 
+      </form>    
+    </div>  
+  </div>
+</ion-content>

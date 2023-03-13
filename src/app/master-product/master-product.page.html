@@ -1,0 +1,102 @@
+<ion-content>
+  <div class ="header">
+    <div class="topic">ข้อมูลพื้นฐาน - สินค้า</div>
+    <div class="topRight">
+       <div class="row">
+          &nbsp;
+        </div>  
+        <div class="row">
+          &nbsp;
+        </div>
+        <div class="row">
+          &nbsp; 
+        </div>
+    </div>
+  </div>
+  <div class="ion-padding">
+    <!-- Theme classes dark, material, bootstrap -->
+    <div class="row g-3">
+
+      <div class="col-sm-2">
+        <label for="PRODUCT_GROUP" class="form-label">กลุ่มสินค้าหลัก</label>
+        <select class="form-select" id="PRODUCT_GROUP" [(ngModel)]="this.oFilterItems.PRODUCT_GROUP_ID" (change)="getAllProductSubGroup()" required>
+          <option value="">ทั้งหมด</option>
+          <option  *ngFor="let item of resProductGroup" value="{{item.PRODUCT_GROUP_ID}}">{{item.PRODUCT_GROUP_DESC}}</option>
+        </select>
+      </div>
+
+      <div class="col-sm-2">
+        <label for="PRODUCT_SUBGROUP" class="form-label">กลุ่มสินค้าย่อย</label>
+        <select class="form-select" id="PRODUCT_SUBGROUP" [(ngModel)]="this.oFilterItems.PRODUCT_SUBGROUP_ID" required>
+          <option value="">ทั้งหมด</option>
+          <option  *ngFor="let item of resProductSubGroup" value="{{item.PRODUCT_SUBGROUP_ID}}">{{item.PRODUCT_SUBGROUP_DESC}}</option>
+        </select>
+      </div>
+
+      <div class="col-sm-2">
+        <label for="PRODUCT_CODE" class="form-label">รหัสสินค้า</label>
+        <input type="text" class="form-control" id="PRODUCT_CODE" [(ngModel)]="this.oFilterItems.PRODUCT_CODE" (keyup.enter)="setFilteredItems()"  placeholder="" required>
+      </div>
+
+      <div class="col-sm-3">
+        <label for="PRODUCT_DESC" class="form-label">ชื่อสินค้า</label>
+        <input type="text" class="form-control" id="PRODUCT_DESC" [(ngModel)]="this.oFilterItems.PRODUCT_DESC" (keyup.enter)="setFilteredItems()"   placeholder="" required>
+      </div>
+
+      <div class="col-sm-1">
+        <label for="GENERATION" class="form-label" style="display: block;">ยุค</label>
+        <select class="form-select" name="GENERATION_ID"  [(ngModel)]="this.oFilterItems.GEN_ID" required>
+          <option value="">ทั้งหมด</option>
+          <option  *ngFor="let item of resGeneration" value="{{item.GEN_ID}}">{{item.GENERATION_DESC}}</option>
+        </select>
+      </div>
+
+      <div class="col-sm-1">
+        <label for="SCENE" class="form-label" style="display: block;">ฉาก</label>
+        <select class="form-select" name="SCENE_ID"  [(ngModel)]="this.oFilterItems.SCENE_ID" required>
+          <option value="">ทั้งหมด</option>
+          <option  *ngFor="let item of resScene" value="{{item.SCENE_ID}}">{{item.SCENE_DESC}}</option>
+        </select>
+      </div>
+      
+      <div class="col-sm-1">
+        <label for="btnSearch" class="form-label" style="display:block">&nbsp;</label>       
+        <button id="btnSearch" type="button" style="bottom:1px;" class="btn btn-outline-primary ms-2" (click)="setFilteredItems()" >ค้นหา</button>     
+      </div>     
+    </div>
+
+    <div class="separator1"></div>
+
+    <div >
+      <button type="button" (click)="openModalMasterProduct('')" class="btn btn-outline-primary">เพิ่มรายการ</button>
+    </div>
+
+    <ngx-datatable style="margin-top: 5px;"
+      class="bootstrap"
+      [limit]="10" 
+      [rows]="resProduct" 
+      [rowHeight]="45" 
+      [columns]="columns"
+      [columnMode]="'force'" 
+      [SortType]="'multi'" 
+      [headerHeight]="40" 
+      [footerHeight]="40"
+      >     
+ 
+      <ngx-datatable-column [sortable]="false" prop="Name" name="" [width]="110" [canAutoResize]="false">
+        <ng-template ngx-datatable-cell-template let-value="value"  style="position:absolute; top:5px ;" let-row="row" >
+          <button class="btn btn-primary btn-sm" style="position:absolute; top:5px ;"  (click)="openModalMasterProduct(row)"  placement="center" ngbTooltip="แก้ไขรายการ">แก้ไข</button>
+          <button class="btn btn-danger btn-sm " style="position:absolute; top:5px; margin-left: 58px;" (click)="confirmDeleteProduct(row)"  placement="center" ngbTooltip="ลบรายการ">ลบ</button>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="130" [canAutoResize]="false" name="กลุ่มสินค้าหลัก" prop="PRODUCT_GROUP_DESC" ></ngx-datatable-column>
+      <ngx-datatable-column [width]="130" [canAutoResize]="false" name="กลุ่มสินค้าย่อย" prop="PRODUCT_SUBGROUP_DESC" ></ngx-datatable-column>
+      <ngx-datatable-column [width]="130" [canAutoResize]="false" name="รหัสสินค้า" prop="PRODUCT_CODE" ></ngx-datatable-column>
+      <ngx-datatable-column [width]="200"  name="ชื่อสินค้า" prop="PRODUCT_DESC" ></ngx-datatable-column>
+      <ngx-datatable-column [width]="130" [canAutoResize]="false" name="หน่วยนับ" prop="UOM_DESC" ></ngx-datatable-column>
+      <ngx-datatable-column [width]="130" [canAutoResize]="false" name="ยุค" prop="GENERATION_DESC" ></ngx-datatable-column>
+      <ngx-datatable-column [width]="130" [canAutoResize]="false" name="ฉาก" prop="SCENE_DESC" ></ngx-datatable-column>
+            
+    </ngx-datatable>
+  </div>
+</ion-content>

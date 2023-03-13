@@ -1,0 +1,74 @@
+<ion-app>
+  <ion-split-pane [when]="LoggedIn" contentId="main-content">
+    <ion-menu  contentId="main-content" type="overlay">
+      <ion-toolbar >
+        <div style="font-family: 'thaisanslite'; font-size:55px; font-weight: 600; text-align: center;">
+          ACTS Stock
+        </div>   
+        <div style="margin-top:-15px; line-height:30px; font-family: 'thaisanslite'; font-size:30px; font-weight: 600; text-align: center;">
+         {{appProfile.U_NAME}} / {{appProfile.U_ROLE}}
+        </div>    
+      
+      </ion-toolbar>
+      <ion-content >        
+       
+        <ion-list id="inbox-list" style="margin-top:-20px;">
+          <ion-list-header>สร้าง</ion-list-header>
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+        <ion-list id="inbox-list">
+          <ion-list-header>View/แก้ไข/อนุมัติ</ion-list-header>
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appEditPageLists; let i = index">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+        <!--<ion-list id="inbox-list">
+          <ion-list-header>อนุมัติ</ion-list-header>
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appApprovePageLists; let i = index">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>-->
+        <ion-list id="inbox-list">
+          <ion-list-header>ข้อมูลพื้นฐาน</ion-list-header>
+          <ion-menu-toggle auto-hide="false" *ngFor="let pa of appAdminPages; let i = index">
+            <ion-item routerDirection="root" [routerLink]="[pa.url]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" [ios]="pa.icon + '-outline'" [md]="pa.icon + '-sharp'"></ion-icon>
+              <ion-label>{{ pa.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+        <ion-list id="inbox-list">
+          <ion-list-header>รายงาน</ion-list-header>
+          <ion-menu-toggle auto-hide="false" *ngFor="let pa of appReportPages; let i = index">
+            <ion-item routerDirection="root" [routerLink]="[pa.url]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" [ios]="pa.icon + '-outline'" [md]="pa.icon + '-sharp'"></ion-icon>
+              <ion-label>{{ pa.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+        <ion-list id="inbox-list">
+          <ion-list-header>ตั้งค่า</ion-list-header>
+          <ion-menu-toggle auto-hide="false" *ngFor="let pa of appSettings; let i = index">
+            <ion-item routerDirection="root"  (click)="confirmLogout()" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" [ios]="pa.icon + '-outline'" [md]="pa.icon + '-sharp'"></ion-icon>
+              <ion-label>{{ pa.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+        
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

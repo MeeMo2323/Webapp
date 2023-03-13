@@ -1,0 +1,28 @@
+<ion-content>
+  <div class="container">
+    <div class="col-md-7 col-lg-12 mt-2">
+      <div class="row g-3">
+        <div class="col-sm-8"> 
+          <h4 class="mb-3">{{this.oProductGroup.PRODUCT_GROUP_ID!=""?"แก้ไขรายการ":"เพิ่มรายการ"}} - กลุ่มสินค้าหลัก</h4>
+        </div>
+        <div class="col-sm-4 "> 
+          <button type="button" class="btn btn-outline-danger float-end ms-2" (click)="dismiss()">ยกเลิก</button>
+          <button type="button" class="btn btn-outline-success float-end" (click)="validToSaveData()" >บันทึก</button>        
+        </div>
+      </div>       
+      <form class="needs-validation mt-4" novalidate>
+        <div class="row g-4">     
+          <div class="col-sm-4">
+            <label for="PRODUCT_GROUP_ABBR" class="form-label"  style="display: block;">ชื่อย่อกลุ่มสินค้า<span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="PRODUCT_CODE" name="PRODUCT_GROUP_ABBR" placeholder="" [(ngModel)]="this.oProductGroup.PRODUCT_GROUP_ABBR" maxlength="3" required>
+          </div>  
+          <div class="col-sm-8">
+            <label for="PRODUCT_GROUP_DESC" class="form-label" style="display: block;">ชื่อกลุ่มสินค้า<span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="PRODUCT_DESC" name="PRODUCT_GROUP_DESC" placeholder="" [(ngModel)]="this.oProductGroup.PRODUCT_GROUP_DESC" required>
+          </div>          
+        </div>  
+        <!--<hr class="my-4">--> 
+      </form>    
+    </div>  
+  </div>
+</ion-content>

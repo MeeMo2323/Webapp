@@ -1,0 +1,67 @@
+<ion-content>
+  <div class="container">
+    <div class="col-md-7 col-lg-12 mt-2">
+      <div class="row g-3">
+        <div class="col-sm-8">
+          <h4 class="mb-3">{{this.oCustomer.CUST_ID!=""?"แก้ไขรายการ":"เพิ่มรายการ"}} - ลูกค้า</h4>
+        </div>
+        <div class="col-sm-4 ">
+          <button type="button" class="btn btn-outline-danger float-end ms-2" (click)="dismiss()">ยกเลิก</button>
+          <button type="button" class="btn btn-outline-success float-end" (click)="validToSaveData()">บันทึก</button>
+        </div>
+      </div>
+      <form class="needs-validation mt-4" novalidate>
+        <div class="col mb-4 ">
+          <div class="card mb-4">
+            <div class="card-body">
+              <!-- 2 column grid layout with text inputs for the first and last names -->
+              <div class="row mb-1">
+                <div class="col">
+                  <div class="form-outline">
+                    <label class="form-label" for="custName">ชื่อ-นามสกุล<span style="color:red">*</span></label>
+                    <input type="text" id="CUST_NAME" name="CUST_NAME" class="form-control"
+                      [(ngModel)]="oCustomer.CUST_NAME" />
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-outline">
+                    <label class="form-label" for="custTel">โทร.<span style="color:red">*</span></label>
+                    <input type="text" id="CUST_TEL" name="CUST_TEL" class="form-control"
+                      [(ngModel)]="oCustomer.CUST_TEL" />
+                  </div>
+                </div>
+              </div>
+              <!-- Text input -->
+              <div class="row mb-1">
+                <div class="col">
+                  <div class="form-outline">
+                    <label class="form-label" for="custComp">ชื่อบริษัท<span style="color:red">*</span></label>
+                    <input type="text" id="CUST_COMPNAME" name="CUST_COMPNAME" class="form-control"
+                      [(ngModel)]="oCustomer.CUST_COMPNAME" />
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-outline">
+                    <label class="form-label" for="taxNo">เลขที่ผู้เสียภาษี<span style="color:red">*</span></label>
+                    <input type="text" id="TAX_NO" name="TAX_NO" class="form-control" [(ngModel)]="oCustomer.TAX_NO" />
+                  </div>
+                </div>
+              </div>
+              <!-- Text input -->
+              <div class="form-outline mb-2">
+                <label class="form-label" for="custAddr1">ที่อยู่<span style="color:red">*</span></label>
+                <input type="text" id="CUST_ADDR1" name="CUST_ADDR1" class="form-control"
+                  [(ngModel)]="oCustomer.CUST_ADDR1" />
+              </div>
+              <!-- Text input -->
+              <div class="form-outline mb-2">
+                <input type="text" id="CUST_ADDR2" name="CUST_ADDR2" class="form-control"
+                  [(ngModel)]="oCustomer.CUST_ADDR2" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ion-content>

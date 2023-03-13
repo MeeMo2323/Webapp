@@ -1,0 +1,24 @@
+<ion-content>
+  <div class="container">
+    <div class="col-md-7 col-lg-12 mt-2">
+      <div class="row g-3">
+        <div class="col-sm-6"> 
+          <h4 class="mb-3">{{oVendor.VENDOR_ID!=""?"แก้ไขรายการ":"เพิ่มรายการ"}} - กองละคร</h4>
+        </div>
+        <div class="col-sm-6 "> 
+          <button type="button" class="btn btn-outline-danger float-end ms-2" (click)="dismiss()">ยกเลิก</button>
+          <button type="button" class="btn btn-outline-success float-end" (click)="validToSaveData()" >บันทึก</button>        
+        </div>
+      </div>       
+      <form class="needs-validation mt-4" novalidate>
+        <div class="row g-3">      
+          <div class="col-sm-9">
+            <label for="VENDOR_DESC" class="form-label" style="display: block;">ชื่อกองละคร<span style="color:red">*</span></label>
+            <input type="text" [(ngModel)]="this.oVendor.VENDOR_DESC" class="form-control" id="VENDOR_DESC" name="VENDOR_DESC" placeholder=""  required>
+          </div>          
+        </div>  
+        <!--<hr class="my-4">--> 
+      </form>    
+    </div>  
+  </div>
+</ion-content>

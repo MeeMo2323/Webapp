@@ -1,0 +1,192 @@
+<ion-content>
+
+  <div class="container">
+    <div class="col-md-7 col-lg-12 mt-2">
+      <div class="row g-3">
+        <div class="col-sm-6">
+          <h4 class="mb-3"><span class="headerTextLeft">รายงาน - ใบรับเข้า</span></h4>
+        </div>
+        <div class="col-sm-6 ">
+          &nbsp;
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row g-3">
+
+      <div class="col-sm-3">
+        <label for="STATUS" class="form-label">กองละคร</label>
+        <select class="form-select" id="STATUS" [(ngModel)]="oVENDOR_ID" required>
+          <option value="" [selected]="true">ระบุกองละคร</option>
+          <option *ngFor="let item of resVendor" value="{{item.VENDOR_ID}}">{{item.VENDOR_DESC}}</option>
+        </select>
+      </div>
+
+
+      <div class="col-sm-1">
+        <label for="btnSearch" class="form-label" style="display:block">&nbsp;</label>
+        <button id="btnSearch" type="button" style="bottom:1px;" class="btn btn-outline-primary float-end ms-2"
+          (click)="getRPT()">ค้นหา</button>
+      </div>
+      <div class="col-sm-1" [hidden]="!isContainData">
+        <label for="btnSearch" class="form-label" style="display:block">&nbsp;</label>
+        <!--<button id="btnSearch" type="button" style="bottom:1px;" class="btn btn-outline-primary float-end ms-2" (click)="sendToPdf()" >Export</button> -->
+        <button id="btnSearch" type="button" style="bottom:1px;" class="btn btn-outline-primary float-end ms-2"
+          (click)="exportPDF(oVENDOR_DESC)">Export</button>
+      </div>
+
+    </div>
+
+  </div>
+  <div id="pdfTable" #pdfTable style="padding: 10px;">
+
+    <style>
+      .rptContent {
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: auto;
+        font-family: 'thaisanslite';
+      }
+
+      .rptContent table .mainContent {
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+        width: 95% !important;
+        border: 1px !important;
+        border: 1px solid black !important;
+        border-collapse: collapse !important;
+      }
+
+      .tCaption {
+        font-family: 'thaisanslite' !important;
+        font-size: 25px;
+      }
+
+      .tHeader {
+        border: 1px solid black !important;
+        font-family: 'thaisanslite';
+        font-size: 22px;
+      }
+
+      .tSeparator {
+        height: 15px;
+      }
+    </style>
+
+
+    <div class="rptContent" [hidden]="!isContainData" style="width:98%;margin-left:auto; margin-right:auto;">
+      <span clas="tCaption" style="font-size: 25px;">{{oVENDOR_DESC!=""?"รายการของตามบิลที่เคลียร์และที่ส่งคืนกองละคร "+
+        oVENDOR_DESC:""}}</span>
+      <div class="tSeparator"></div>
+      <div style="display: flex; ">
+        <table style="border: 1px solid black;  position: relative; ">
+          <thead style="border: 1px solid black !important;font-family: 'thaisanslite';font-size: 22px;">
+            <tr>
+              <th style="width:150px;border: 1px solid black; text-align: center;">รายการมูลค่า</th>
+              <th style="width:150px;border: 1px solid black; text-align: center;">มูลค่า</th>
+              <th style="width:150px;border: 1px solid black; text-align: center;">มูลค่าโดยประมาณ (%)</th>
+            </tr>
+          </thead>
+          <tbody style=" font-family: 'thaisanslite'; font-size: 20px;">
+            <tr>
+              <td style="border-right: 1px solid black; padding-left: 10px; text-align: left;">มูลค่าทั้งหมด</td>
+              <td style="border-right: 1px solid black; padding-right: 10px; text-align:right;">{{resRptReceive
+                ==""?'-': sumAllItem | number:'1.2-2'}}</td>
+              <td style="border-right: 1px solid black; padding-right: 10px; text-align:right;">&nbsp;</td>
+            </tr>
+            <tr>
+              <td style="border-right: 1px solid black; padding-left: 10px; text-align: left;">มูลค่าที่ได้รับคืน</td>
+              <td style="border-right: 1px solid black; padding-right: 10px; text-align:right;">{{resRptReceive
+                ==""?'-': sumReturnItem | number:'1.2-2'}}</td>
+              <td style="border-right: 1px solid black;text-align: right;padding-right: 10px;">{{resRptReceive ==""?'-':
+                (sumReturnItem/sumAllItem*100) | number:'1.2-2'}} %</td>
+            </tr>
+            <tr>
+              <td style="border-right: 1px solid black; padding-left: 10px; text-align: left;">มูลค่าที่ไม่ได้รับคืน
+              </td>
+              <td style="border-right: 1px solid black; padding-right: 10px; text-align:right;">{{resRptReceive
+                ==""?'-': sumMissingItem | number:'1.2-2'}}</td>
+              <td style="border-right: 1px solid black;text-align: right;padding-right: 10px;">{{resRptReceive ==""?'-':
+                (sumMissingItem/sumAllItem*100) | number:'1.2-2' }} %</td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+        <table style="border: 1px solid black; position: relative;  left:100px; ">
+          <thead style="border: 1px solid black !important;font-family: 'thaisanslite';font-size: 22px;">
+            <tr>
+              <th style="width:150px;border: 1px solid black; text-align: center;">รายการมูลค่า</th>
+              <th style="width:150px;border: 1px solid black; text-align: center;">มูลค่า</th>
+              <th style="width:150px;border: 1px solid black; text-align: center;">มูลค่าโดยประมาณ (%)</th>
+            </tr>
+          </thead>
+          <tbody style=" font-family: 'thaisanslite'; font-size: 20px;">
+
+            <tr>
+              <td style="border-right: 1px solid black; padding-left: 10px; text-align: left;">มูลค่าที่ไม่ได้รับคืน
+              </td>
+              <td style="border-right: 1px solid black; padding-right: 10px; text-align:right;">{{resRptReceive
+                ==""?'-': sumMissingItem | number:'1.2-2'}}</td>
+              <td style="border-right: 1px solid black;text-align: right;padding-right: 10px;">{{resRptReceive ==""?'-':
+                (sumMissingItem/sumAllItem*100) | number:'1.2-2' }} %</td>
+            </tr>
+            <tr>
+              <td style="border-right: 1px solid black; padding-left: 10px; text-align: left;">มูลค่าปรับ</td>
+              <td style="border-right: 1px solid black; padding-right: 10px; text-align:right;">{{resRptReceive
+                ==""?'-': sumFinePrice | number:'1.2-2'}}</td>
+              <td style="border-right: 1px solid black;text-align: right;padding-right: 10px;">{{resRptReceive ==""?'-':
+                (sumFinePrice/sumMissingItem*100) | number:'1.2-2'}} %</td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+      <div class="tSeparator"></div>
+
+      <table style="width:95%;border: 1px solid black; position: relative;  ">
+        <thead style="border: 1px solid black !important;font-family: 'thaisanslite';font-size: 22px;">
+          <tr>
+            <th rowspan="2" style="width:5%;border: 1px solid black; text-align: center;">ชุดที่</th>
+            <th rowspan="2" style="width:35%;border: 1px solid black; text-align: center;">ชื่อรายการ</th>
+            <th colspan="2" style="width:15%;border: 1px solid black; text-align: center;">ราคา</th>
+            <th colspan="2" style="width:15%;border: 1px solid black; text-align: center;">จำนวน</th>
+            <th rowspan="2" style="width:30%;border: 1px solid black; text-align: center;">หมายเหตุ</th>
+          </tr>
+          <tr>
+            <th style="width:7%;border: 1px solid black; text-align: center;">รวม</th>
+            <th style="width:8%;border: 1px solid black; text-align: center;">หน่วยละ</th>
+            <th style="width:7%;border: 1px solid black; text-align: center;">ตามบิล</th>
+            <th style="width:8%;border: 1px solid black; text-align: center;">คืนจริง</th>
+          </tr>
+        </thead>
+        <tbody style=" font-family: 'thaisanslite'; font-size: 20px;">
+          <tr *ngFor="let item of resRptReceive let i = index;">
+
+            <td style="border-right: 1px solid black; text-align: center;">{{item.SET_NO}}</td>
+            <td style="border-right: 1px solid black; padding-left: 10px;">{{item.PRODUCT_DESC}}</td>
+            <td style="border-right: 1px solid black;text-align: right;padding-right: 10px;">
+              {{(item.UNIT_PRICE*item.QTY) | number:'1.2-2'}}</td>
+            <td style="border-right: 1px solid black;text-align: right;padding-right: 10px;">{{(item.UNIT_PRICE*1.00) |
+              number:'1.2-2'}}</td>
+            <td style="border-right: 1px solid black;text-align: right;padding-right: 10px;">{{item.QTY}}</td>
+            <td style="border-right: 1px solid black;text-align: right;padding-right: 10px;">{{item.QTY_IN}}</td>
+            <td style="padding-left: 10px;">{{item.REASON_DESC}}</td>
+        
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+
+</ion-content>

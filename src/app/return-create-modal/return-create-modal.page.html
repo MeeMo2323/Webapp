@@ -1,0 +1,71 @@
+<ion-content>
+  <div class="container">
+    <div class="col-md-7 col-lg-12 mt-2">
+      <div class="row g-3">
+        <div class="col-sm-6"> 
+
+      
+        </div>
+        <div class="col-sm-6 "> 
+          <button type="button" class="btn btn-outline-danger float-end ms-2" (click)="dismiss()">ยกเลิก</button>     
+        </div>
+      </div>
+
+    </div>
+    <h4 class="mb-3">&nbsp;</h4>
+
+    <div class="row g-3">
+
+      <div class="col-md-2">
+        <label for="PRODUCT_CODE" class="form-label">เลขที่ใบยืม</label>
+        <input type="text" class="form-control" id="PRODUCT_CODE" [(ngModel)]="this.oFilterItems.BORROW_DOCNO" (keyup.enter)="setFilteredItems()" placeholder="" required>
+      </div>
+      <div class="col-sm-4">
+        <label for="PRODUCT_DESC" class="form-label">ชื่อผู้จอง</label>
+        <input type="text" class="form-control" id="PRODUCT_DESC" [(ngModel)]="this.oFilterItems.CUST_NAME" (keyup.enter)="setFilteredItems()" placeholder="" value="" required>
+      </div>
+      <div class="col-sm-4">
+        <label for="PRODUCT_DESC" class="form-label">ชื่อบริษัท</label>
+        <input type="text" class="form-control" id="PRODUCT_DESC" [(ngModel)]="this.oFilterItems.CUST_COMPNAME" (keyup.enter)="setFilteredItems()" placeholder="" value="" required>
+      </div>
+         
+      <div class="col-sm-1">
+        <label for="btnSearch" class="form-label" style="display:block">&nbsp;</label>       
+        <button id="btnSearch" type="button" style="bottom:1px;" class="btn btn-outline-primary ms-2" (click)="setFilteredItems()" >ค้นหา</button>     
+      </div>     
+    
+    </div>
+
+
+
+
+  </div>
+
+   <ngx-datatable style="margin-top: 50px;"
+      class="bootstrap"
+      [limit]="10" 
+      [rows]="resProduct" 
+      [rowHeight]="40" 
+    
+      [columnMode]="'force'" 
+      [headerHeight]="40" 
+      [footerHeight]="50"
+      >
+      <ngx-datatable-column [canAutoResize]="false" prop="Name" name=" " [width]="40" [sortable]="false">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row" style="top: -5px;">
+          <button class="btn btn-primary btn-sm me-2" style="position:absolute; top:5px"  (click)="selectProduct(row)"   placement="center" ngbTooltip="เลือกรายการ">+</button>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="100" [canAutoResize]="false" name="เลขที่ใบยืม" prop="BORROW_DOCNO"></ngx-datatable-column>
+      <ngx-datatable-column [width]="100" [canAutoResize]="false" name="ชื่อผู้ยืม" prop="CUST_NAME"></ngx-datatable-column>
+      <ngx-datatable-column [width]="170" [canAutoResize]="false" name="ชื่อบริษัท" prop="CUST_COMPNAME"></ngx-datatable-column>
+      <ngx-datatable-column [width]="100" [canAutoResize]="false" name="รหัสสินค้า" prop="PRODUCT_CODE"></ngx-datatable-column>
+      <ngx-datatable-column [width]="200" name="ชื่อสินค้า" prop="PRODUCT_DESC"></ngx-datatable-column>
+      <ngx-datatable-column [width]="70"  [sortable]="false" [canAutoResize]="false" name="จำนวนยืม" prop="QTY_BR"></ngx-datatable-column>
+      <ngx-datatable-column [width]="80"  [sortable]="false" [canAutoResize]="false" name="จำนวนรอคืน" prop="QTY_REMAIN"></ngx-datatable-column>
+      <ngx-datatable-column [width]="70" [sortable]="false" [canAutoResize]="false" name="หน่วยนับ" prop="UOM_DESC"></ngx-datatable-column>     
+      <ngx-datatable-column [width]="100" [sortable]="false" [canAutoResize]="false" name="สถานที่ยืม" prop="LOCATION"></ngx-datatable-column>
+    </ngx-datatable>
+
+
+</ion-content>

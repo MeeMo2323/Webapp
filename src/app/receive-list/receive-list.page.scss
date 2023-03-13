@@ -1,0 +1,12 @@
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/bootstrap.scss';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+
+ion-modal.modalCustomsize {
+    --height: 98% !important;
+    --width: 85% !important;
+}
+
+:host ::ng-deep .ngx-datatable .datatable-body .datatable-scroll {
+    display: inherit;
+  }

@@ -1,0 +1,199 @@
+
+<ion-content>
+  <button id="btnSearch" type="button" class="btn btn-outline-primary float-end me-2 mt-2"
+  (click)="exportPDF()">Export</button>
+<span class="mainForm"  id="pdfTable" #pdfTable  >
+  <div class="header">  
+    <div class="logo">
+      <img src="assets/img/acts_logo.jpg" width="200" >
+    </div>
+
+    <div class="formName">
+      ใบเช่า/ยืมอุปกรณ์ 
+    </div>
+
+    <div class="formDocNo">
+      <table >
+        <tr>
+          <td style="padding-left: 5px;width: 100px;text-align: left;font-weight:bold;">วันที่ Date.</td>
+          <td>{{pHBorrow.DOC_DATE}}</td>
+        </tr>
+        <tr>
+          <td style="padding-left: 5px;width: 100px;text-align: left;font-weight:bold;">เลขที่ No.</td>
+          <td>{{pHBorrow.DOC_NO}}</td>
+        </tr>
+      </table>     
+    </div>
+
+    <div class="borrowerDetails">
+        <table>
+          <tr>
+            <td colspan="2" style="font-weight:bold;">นามผู้เช่า / ลูกค้า : </td>
+          </tr>
+          <tr>
+            <td style="font-weight:bold;">แผนก/กองละคร/อื่นๆ</td>
+            <td style="padding-left: 5px;">{{pHBorrow.BORROW_VENDOR}}</td>
+          </tr>
+          <tr>
+            <td rowspan="4" style="font-weight:bold; vertical-align: top;">บริษัท</td>
+            <td style="padding-left: 5px;">{{pHBorrow.CUST_COMPNAME}}</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 5px;">{{pHBorrow.CUST_ADDR1}}</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 5px;">{{pHBorrow.CUST_ADDR2}}</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 5px;">เลขที่ผู้เสียภาษี&nbsp;{{pHBorrow.TAX_NO}}</td>
+          </tr>
+          <tr>
+            <td style="font-weight:bold;">ผู้ประสานงานกองละคร/ผู้ติดต่อ</td>
+            <td style="padding-left: 5px;">{{pHBorrow.CUST_NAME}}</td>
+          </tr>
+          <tr>
+            <td style="font-weight:bold;">เบอร์โทรศัพท์ผู้ติดต่อ</td>
+            <td style="padding-left: 5px;">{{pHBorrow.CUST_TEL}}</td>
+          </tr>
+        </table>
+    </div>
+
+  </div>  
+
+  <div class="tableDetails">
+    <table class="item" >
+      <tr style="font-weight:bold;">
+        <td style="width:80px;text-align: center;">ลำดับ</td>
+        <td style="width:260px;text-align: center;">
+          รายการ<br>Description
+        </td>
+        <td style="width:100px;text-align: center;">
+          รหัส<br>Code
+        </td>
+        <td style="width:100px;text-align: center;">
+          จำนวน<br>Quantity
+        </td>
+        <td style="width:100px;text-align: center;">
+          ราคาต่อหน่วย<br>Unit Price
+        </td>
+        <td style="width:100px;text-align: center;">
+          ราคาค่าเช่า<br>Price
+        </td>
+        <td style="width:120px;text-align: center;">
+          หมายเหตุ
+        </td>
+      </tr>
+      <tr *ngFor="let item of pIBorrow let i =index">
+        <td style="text-align: center;"  >{{i+1}}</td>
+        <td style="text-align: center;padding-left: 5px;" >
+          <span style="display: block;">{{item.PRODUCT_DESC}}</span> 
+          <img src="assets/img-asset/{{item.IMG1}}" onError="src = 'assets/img-asset/no-image-available.png'" width="200px" height="200px"  >
+        </td>
+        <td style="text-align: center;">{{item.LOC_CODE}}</td>
+        <td style="text-align: center;">{{item.QTY}}</td>
+        <td style="text-align: right; padding-right: 15px;">{{item.UNIT_PRICE| number:'1.2-2'}}</td>
+        <td style="text-align: right; padding-right: 15px;">{{item.QTY*item.UNIT_PRICE| number:'1.2-2'}}</td>
+        <td style="text-align: center;">ONE</td>
+      </tr>
+      <tr style="font-weight:bold;">
+        <td colspan="5" style="width:80px;text-align: center;">ราคาค่าเช่า</td>
+        <td style="text-align: right;padding-right: 15px;">{{valAmount| number:'1.2-2'}}</td>
+        <td style="text-align: center;">&nbsp;</td>
+      </tr>
+      <tr style="font-weight:bold;">
+        <td colspan="5" style="width:80px;text-align: center;">ภาษีมูลค่าเพิ่ม 7%</td>
+        <td style="text-align: right;padding-right: 15px;">{{valVATAmount| number:'1.2-2'}}</td>
+        <td style="text-align: center;">&nbsp;</td>
+      </tr>
+      <tr style="font-weight:bold;">
+        <td colspan="5" style="width:80px;text-align: center;">รวมจำนวนเงินทั้งสิ้น</td>
+        <td style="text-align: right;padding-right: 15px;">{{valTotalAmount| number:'1.2-2'}}</td>
+        <td style="text-align: center;">&nbsp;</td>
+      </tr>
+  
+    </table>
+    <div class="tableFooter">
+      <table style="margin-top: 10px;">
+        <tr>
+          <td style="width:300px;font-weight:bold;">ยืมอุปกรณ์จาก (สถานที่ที่อุปกรณ์ประจำอยู่)</td>
+          <td>{{valLOC_FROMList}}</td>
+        </tr>
+        <tr>
+          <td style="font-weight:bold;">วัตถุประสงค์การยืมเพื่อ</td>
+          <td>{{pHBorrow.BORROW_REASON}}</td>
+        </tr>
+        <tr>
+          <td style="font-weight:bold;">สถานที่ที่ใช้อุปกรณ์</td>
+          <td>{{valLOC_TOList}}</td>
+        </tr>
+        <tr>
+          <td style="font-weight:bold;">รับอุปกรณ์วันที่</td>
+          <td>{{pHBorrow.RPT_BORROW_FROM}}</td>
+        </tr>
+        <tr>
+          <td style="font-weight:bold;">ส่งคืนอุปกรณ์วันที่</td>
+          <td>{{pHBorrow.RPT_BORROW_TO}}</td>
+        </tr>
+        <tr>
+          <td style="font-weight:bold;">รวมระยะเวลาการเช่ายืม</td>
+          <td>{{pHBorrow.BORROW_DATE_COUNT}} วัน (หากเกินกำหนดระยะเวลาการคืน จะมีค่าปรับเพิ่ม)</td>
+        </tr>
+        <tr>
+          <td style="font-weight:bold;">หมายเหตุ</td>
+          <td>{{pHBorrow.NOTE}}</td>
+        </tr>
+      </table>
+      <table style="display: inline-block;margin-top: 50px;">
+        <tr>
+          <td>ลงชื่อผู้ยืม</td>
+          <td>&nbsp;&nbsp;&nbsp;..............................................</td>
+        </tr>
+        <tr>
+          <td>เบอร์โทรติดต่อ</td>
+          <td>&nbsp;&nbsp;&nbsp;..............................................</td>
+        </tr>
+        <tr>
+          <td>วันที่</td>
+          <td>&nbsp;&nbsp;&nbsp;..............................................</td>
+        </tr>      
+      </table>
+
+      <table style="display: inline-block; margin-top: 50px; margin-left: 300px;">
+        <tr>
+          <td>ผู้อนุมัติ</td>
+          <td>&nbsp;&nbsp;&nbsp;..............................................</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td style="text-align: center;">( นายสมทรง  แสนคุณท้าว )</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td style="text-align: center;font-weight: bold;">ผู้จัดการแผนกศิลปกรรม</td>
+        </tr>  
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr> 
+        <tr>
+          <td>ผู้อนุมัติ</td>
+          <td>&nbsp;&nbsp;&nbsp;..............................................</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td style="text-align: center;"> ( นางสาวสุบงกช  ชลิตเรืองกุล )</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td style="text-align: center;font-weight: bold;">ผู้จัดการสตูดิโอ</td>
+        </tr>      
+      </table>
+
+    </div>
+ 
+    
+  </div>
+  
+
+</span>
+</ion-content>

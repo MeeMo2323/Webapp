@@ -1,0 +1,83 @@
+<ion-content>
+  <div class ="header">
+    <div class="topic">ข้อมูลพื้นฐาน - ลูกค้า</div>
+    <div class="topRight">
+       <div class="row">
+          &nbsp;
+        </div>  
+        <div class="row">
+          &nbsp;
+        </div>
+        <div class="row">
+          &nbsp; 
+        </div>
+    </div>
+  </div>
+  <div class="ion-padding">
+    <!-- Theme classes dark, material, bootstrap -->
+    <div class="row g-3">
+
+      <div class="col-sm-3">
+        <label for="CUST_NAME" class="form-label">ชื่อ-นามสกุล</label>
+        <input type="text" class="form-control" id="CUST_NAME" [(ngModel)]="this.oFilterItems.CUST_NAME" (keyup.enter)="setFilteredItems()"  placeholder="" required>
+      </div>
+
+      <div class="col-sm-2">
+        <label for="CUST_COMPNAME" class="form-label">ชื่อบริษัท</label>
+        <input type="text" class="form-control" id="CUST_COMPNAME" [(ngModel)]="this.oFilterItems.CUST_COMPNAME" (keyup.enter)="setFilteredItems()"   placeholder="" required>
+      </div>
+
+      <div class="col-sm-2">
+        <label for="TAX_NO" class="form-label">เลขที่ผู้เสียภาษี</label>
+        <input type="text" class="form-control" id="TAX_NO" [(ngModel)]="this.oFilterItems.TAX_NO" (keyup.enter)="setFilteredItems()"   placeholder="" required>
+      </div>
+
+      <div class="col-sm-2">
+        <label for="CUST_TEL" class="form-label">โทร.</label>
+        <input type="text" class="form-control" id="CUST_TEL" [(ngModel)]="this.oFilterItems.CUST_TEL" (keyup.enter)="setFilteredItems()"   placeholder="" required>
+      </div>     
+
+         
+      <div class="col-sm-1">
+        <label for="btnSearch" class="form-label" style="display:block">&nbsp;</label>       
+        <button id="btnSearch" type="button" style="bottom:1px;" class="btn btn-outline-primary ms-2" (click)="setFilteredItems()" >ค้นหา</button>     
+      </div>     
+    </div>
+
+    <div class="separator1"></div>
+
+    <div >
+      <button type="button" (click)="openModalMasterCustomer('')" class="btn btn-outline-primary">เพิ่มรายการ</button>
+    </div>
+
+    <ngx-datatable style="margin-top: 5px;"
+      class="bootstrap"
+      [limit]="10" 
+      [rows]="resCustomer" 
+      [rowHeight]="45" 
+      [columns]="columns"
+      [columnMode]="'force'" 
+      [headerHeight]="40" 
+      [footerHeight]="40"
+      >     
+ 
+      <ngx-datatable-column *ngIf="pIsOpenFromPopup==1" [sortable]="false" prop="Name" name="" [width]="60" [canAutoResize]="false">
+        <ng-template ngx-datatable-cell-template let-value="value"  style="position:absolute; top:5px ;" let-row="row" >
+          <button class="btn btn-primary btn-sm" style="position:absolute; top:5px ;" (click)="selectCustomer(row)"  placement="center" ngbTooltip="เลือกรายการ">เลือก</button>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column *ngIf="pIsOpenFromPopup!=1" [sortable]="false" prop="Name" name="" [width]="110" [canAutoResize]="false">
+        <ng-template ngx-datatable-cell-template let-value="value"  style="position:absolute; top:5px ;" let-row="row" >
+          <button class="btn btn-primary btn-sm" style="position:absolute; top:5px ;" (click)="openModalMasterCustomer(row)"  placement="center" ngbTooltip="แก้ไขรายการ">แก้ไข</button>
+          <button class="btn btn-danger btn-sm " style="position:absolute; top:5px; margin-left: 58px;" (click)="confirmDeleteCustomer(row)"  placement="center" ngbTooltip="ลบรายการ">ลบ</button>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="130" [canAutoResize]="false" name="ชื่อ-นามสกุล" prop="CUST_NAME" ></ngx-datatable-column>
+      <ngx-datatable-column [width]="130"  name="ชื่อบริษัท" prop="CUST_COMPNAME" ></ngx-datatable-column>
+      <ngx-datatable-column [width]="130" [canAutoResize]="false" name="เลขที่ผู้เสียภาษี" prop="TAX_NO" ></ngx-datatable-column>      
+      <ngx-datatable-column [width]="200" [canAutoResize]="false" name="เบอร์โทร." prop="CUST_TEL" ></ngx-datatable-column>
+      
+            
+    </ngx-datatable>
+  </div>
+</ion-content>

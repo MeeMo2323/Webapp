@@ -1,0 +1,83 @@
+<ion-content>
+  <div class="container">
+    <div class="col-md-7 col-lg-12 mt-2">
+      <div class="row g-3">
+        <div class="col-sm-6">
+
+          <div>
+            <button type="button" class="btn btn-outline-primary"
+              (click)="openModalMasterProduct('')">เพิ่มรายการข้อมูลพื้นฐานสินค้า</button>
+          </div>
+        </div>
+        <div class="col-sm-6 ">
+          <button type="button" class="btn btn-outline-danger float-end ms-2" (click)="dismiss()">ยกเลิก</button>
+        </div>
+      </div>
+
+    </div>
+    <h4 class="mb-3">&nbsp;</h4>
+
+    <div class="row g-3">
+
+      <div class="col-md-2">
+        <label for="PRODUCT_CODE" class="form-label">รหัสสินค้า</label>
+        <input type="text" class="form-control" id="PRODUCT_CODE" [(ngModel)]="this.oFilterItems.PRODUCT_CODE"
+          (keyup.enter)="setFilteredItems()" placeholder="" required>
+      </div>
+
+      <div class="col-sm-4">
+        <label for="PRODUCT_DESC" class="form-label">ชื่อสินค้า</label>
+        <input type="text" class="form-control" id="PRODUCT_DESC" [(ngModel)]="this.oFilterItems.PRODUCT_DESC"
+          (keyup.enter)="setFilteredItems()" placeholder="" value="" required>
+      </div>
+
+      <div class="col-sm-3">
+        <label for="PRODUCT_GROUP" class="form-label">กลุ่มสินค้า(หลัก)</label>
+        <select class="form-select" id="PRODUCT" [(ngModel)]="this.oFilterItems.PRODUCT_GROUP_ID"
+          (change)="getAllProductSubGroup()" required>
+          <option value="">ทั้งหมด</option>
+          <option *ngFor="let item of resProductGroup" value="{{item.PRODUCT_GROUP_ID}}">{{item.PRODUCT_GROUP_DESC}}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-sm-2">
+        <label for="PRODUCT_SUBGROUP" class="form-label">กลุ่มสินค้า(ย่อย)</label>
+        <select class="form-select" id="PRODUCT_SUBGROUP" [(ngModel)]="this.oFilterItems.PRODUCT_SUBGROUP_ID" required>
+          <option value="">ทั้งหมด</option>
+          <option *ngFor="let item of resProductSubGroup" value="{{item.PRODUCT_SUBGROUP_ID}}">
+            {{item.PRODUCT_SUBGROUP_DESC}}</option>
+        </select>
+      </div>
+
+      <div class="col-sm-1">
+        <label for="btnSearch" class="form-label" style="display:block">&nbsp;</label>
+        <button id="btnSearch" type="button" style="bottom:1px;" class="btn btn-outline-primary ms-2"
+          (click)="setFilteredItems()">ค้นหา</button>
+      </div>
+
+    </div>
+
+
+  </div>
+
+  <ngx-datatable style="margin-top: 50px;" class="bootstrap" [limit]="10" [rows]="resProduct" [rowHeight]="40"
+    [columns]="columns" [columnMode]="'force'" [SortType]="'multi'" [headerHeight]="40" [footerHeight]="50">
+    <ngx-datatable-column [canAutoResize]="false" prop="Name" name=" " [width]="40">
+      <ng-template ngx-datatable-cell-template let-value="value" let-row="row" style="top: -5px;">
+        <button class="btn btn-primary btn-sm me-2" style="position:absolute; top:5px" (click)="selectProduct(row)"
+          placement="center" ngbTooltip="เลือกรายการ">+</button>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [width]="150" [canAutoResize]="false" name="รหัสสินค้า" prop="PRODUCT_CODE">
+    </ngx-datatable-column>
+    <ngx-datatable-column [width]="200" name="ชื่อสินค้า" prop="PRODUCT_DESC"></ngx-datatable-column>
+    <ngx-datatable-column [width]="150" [canAutoResize]="false" name="หน่วยนับ" prop="UOM_DESC"></ngx-datatable-column>
+    <ngx-datatable-column [width]="150" [canAutoResize]="false" name="กลุ่มสินค้าหลัก" prop="PRODUCT_GROUP_DESC">
+    </ngx-datatable-column>
+    <ngx-datatable-column [width]="150" [canAutoResize]="false" name="กลุ่มสินค้าย่อย" prop="PRODUCT_SUBGROUP_DESC">
+    </ngx-datatable-column>
+  </ngx-datatable>
+
+
+</ion-content>

@@ -1,0 +1,82 @@
+<!--<div class="wrapper">
+	<div class="container">
+		<h1>ONEAsset - เข้าสู่ระบบ</h1>
+		
+		<form class="form">
+			<input type="text" placeholder="Username">
+			<input type="password" placeholder="Password">
+			<button type="submit" id="login-button" >Login</button>
+		</form>
+	</div>
+	
+	<ul class="bg-bubbles">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+</div>-->
+<!--<ion-content>
+<main class="form-signin">
+	<form>
+	  <img class="mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+	  <h1 class="h3 mb-3 fw-normal">ACTs Stock - เข้าสู่ระบบ</h1>
+  
+	  <div class="form-floating">
+		<input type="email"  class="form-control" id="floatingInput" placeholder="name@example.com">
+		<label for="floatingInput">UserName</label>
+	  </div>
+	  <div class="form-floating">
+		<input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+		<label for="floatingPassword">Password</label>
+	  </div>
+  
+	  <div class="checkbox mb-3">
+		<label>
+		  <input type="checkbox" value="remember-me"> Remember me
+		</label>
+	  </div>
+	  <button class="w-100 btn btn-lg btn-primary" type="submit">เข้าสู่ระบบ</button>
+	</form>
+  </main>
+
+</ion-content>-->
+
+<ion-header>
+	<ion-toolbar color="danger">
+	  <ion-title color="light" >ACTs Stock - Log in</ion-title>
+	</ion-toolbar>
+  </ion-header>
+  <ion-grid class="gridStyle">
+	<ion-row class="spaceOnTop"></ion-row>
+	<ion-row justify-content-center>
+	  <ion-col align-self-center>
+		<div padding>
+		  <ion-item>
+  
+  
+			<ion-input type="text" [(ngModel)]="oUser.U_NAME" placeholder="Username"></ion-input>
+  
+  
+		  </ion-item>
+  
+  
+		  <ion-item>
+			<ion-input type="password" [(ngModel)]="oUser.U_PASS" placeholder="Password" (keyup.enter)="validLogin2()"></ion-input>
+		  </ion-item>
+
+  
+		</div>
+  
+		<div padding>
+		  <ion-button color="danger" size="large" (click)="validLogin2()" fill="outline" expand="block">Login</ion-button>
+		</div>
+	  </ion-col>
+	</ion-row>
+  </ion-grid>

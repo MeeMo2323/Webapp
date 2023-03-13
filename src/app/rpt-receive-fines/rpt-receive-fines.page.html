@@ -1,0 +1,69 @@
+<ion-content>
+  <div class="container">
+    <div class="col-md-7 col-lg-12 mt-2">
+      <div class="row g-3">
+        <div class="col-sm-6"> 
+          <h4 class="mb-3"><span class="headerTextLeft">รายงาน - ค่าปรับสินค้า</span></h4>
+        </div>
+        <div class="col-sm-6 "> 
+          &nbsp;
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row g-3">
+
+      <div class="col-sm-3">
+        <label for="STATUS" class="form-label">กองละคร</label>
+        <select class="form-select" id="STATUS" [(ngModel)]="oVENDOR_ID" required>
+          <option value="" [selected]="true">ระบุกองละคร</option>
+          <option  *ngFor="let item of resVendor" value="{{item.VENDOR_ID}}">{{item.VENDOR_DESC}}</option>
+        </select>
+      </div>
+
+      
+      <div class="col-sm-1">
+        <label for="btnSearch" class="form-label" style="display:block">&nbsp;</label>       
+        <button id="btnSearch" type="button" style="bottom:1px;" class="btn btn-outline-primary float-end ms-2" (click)="getRPT()" >ค้นหา</button>     
+      </div>
+      <div class="col-sm-1" [hidden]="!isContainData" >
+        <label for="btnSearch" class="form-label" style="display:block">&nbsp;</label>       
+        <button id="btnSearch" type="button" style="bottom:1px;" class="btn btn-outline-primary float-end ms-2" (click)="exportPDF(oVENDOR_DESC)" >Export</button>    
+      </div>
+
+    </div>
+
+  </div>
+ <div id="pdfTable" #pdfTable  style="padding: 10px;"  >
+
+  <div class="rptContent" [hidden]="!isContainData" >
+    <span clas="tCaption" style="font-size: 25px; margin-left: 20px;">{{oVENDOR_DESC!=""?"รายงานค่าปรับสินค้า กองละคร"+ oVENDOR_DESC + " รวม " + (sumFinePrice| number:'1.2-2') + " บาท":""}}</span>
+    <div class="tSeparator"></div>
+    <ul class="cards">
+      <li class="cards_item" *ngFor="let item of resRptReceiveFines">
+        <span class="card-m"  > 
+          <span class="card_image-m">
+            <img src="assets/img-asset/{{item.IMG1}}" onError="src = 'assets/img-asset/no-image-available.png'"  >
+          </span> 
+          
+          <span style="position: absolute; " >
+            <ion-icon class="card_imageFAV" >{{ item.SET_NO }}</ion-icon>
+          </span>
+                 
+          <div class="card_content" >
+            <span class="card_title">{{ item.PRODUCT_DESC }}</span>
+            <span class="card_text">ราคา : {{ item.FINE_PRICE }}</span>
+          </div>
+        </span>
+      </li>
+
+    </ul>
+
+
+  </div>
+
+ </div> 
+  
+
+</ion-content>

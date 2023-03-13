@@ -1,0 +1,41 @@
+.rptContent
+{
+    margin-top: 30px;
+    margin-left:auto; 
+    margin-right:auto;
+    font-family: 'thaisanslite';
+}
+
+.rptContent table .mainContent
+{
+    width: 95%;
+    margin-left:auto; 
+    margin-right:auto;
+    width:95% !important;
+    border: 1px !important;
+    border: 1px solid black !important;
+    border-collapse: collapse !important;
+}
+
+.tCaption
+{
+    font-family: 'thaisanslite' !important;
+    font-size: 25px;
+}
+
+.tHeader
+{
+    border: 1px solid black !important;
+    font-family: 'thaisanslite';
+    font-size: 22px;
+}
+
+.tBody
+{
+    font-family: 'thaisanslite';
+    font-size: 20px;
+}
+
+.tSeparator{
+    height: 15px;
+}

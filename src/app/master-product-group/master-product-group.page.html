@@ -1,0 +1,66 @@
+<ion-content>
+  <div class ="header">
+    <div class="topic">ข้อมูลพื้นฐาน - กลุ่มสินค้าหลัก</div>
+    <div class="topRight">
+       <div class="row">
+          &nbsp;
+        </div>  
+        <div class="row">
+          &nbsp;
+        </div>
+        <div class="row">
+          &nbsp; 
+        </div>
+    </div>
+  </div>
+  <div class="ion-padding">
+    <!-- Theme classes dark, material, bootstrap -->
+    <div class="row g-3  d-flex align-items-center justify-content-center" >    
+      <div class="col-sm-2">
+        <label for="PRODUCT_GROUP_ABBR" class="form-label">ชื่อย่อ</label>
+        <input type="text" class="form-control" id="PRODUCT_GROUP_ABBR" (keyup.enter)="setFilteredItems()" [(ngModel)]="this.oFilterItems.PRODUCT_GROUP_ABBR" placeholder="" maxlength="3" required>
+      </div>
+
+      <div class="col-sm-4">
+        <label for="PRODUCT_GROUP_DESC" class="form-label">ชื่อกลุ่มสินค้าหลัก</label>
+        <input type="text" class="form-control" id="PRODUCT_GROUP_DESC" (keyup.enter)="setFilteredItems()" [(ngModel)]="this.oFilterItems.PRODUCT_GROUP_DESC" placeholder="" value="" required>
+      </div>
+         
+      <div class="col-sm-1">
+        <label for="btnSearch" class="form-label" style="display:block">&nbsp;</label>       
+        <button id="btnSearch" type="button" style="bottom:1px;" class="btn btn-outline-primary ms-2" (click)="setFilteredItems()" >ค้นหา</button>     
+      </div>
+
+    </div>
+
+    <div class="separator1"></div>
+
+    <div >
+      <button type="button"  class="btn btn-outline-primary" (click)="openModalMasterProductGroup('')">เพิ่มรายการ</button>
+     <!-- <button class="btn-outline-primary" (click)="openModalMasterProduct()">เพิ่มรายการ</button> -->
+    </div>
+    <ngx-datatable style="margin-top: 5px;"
+      class="bootstrap"
+      [limit]="8" 
+      [rows]="resProductGroup" 
+      [rowHeight]="45" 
+      [columnMode]="'force'" 
+      [SortType]="'multi'" 
+      [headerHeight]="40" 
+      [footerHeight]="40"
+      >     
+      
+      <ngx-datatable-column [sortable]="false" prop="Name" name="" [width]="110" [canAutoResize]="false">
+        <ng-template ngx-datatable-cell-template let-value="value"  style="position:absolute; top:5px ;" let-row="row" >
+          <button class="btn btn-primary btn-sm" style="position:absolute; top:5px ;" (click)="openModalMasterProductGroup(row)"  placement="center" ngbTooltip="แก้ไขรายการ">แก้ไข</button>
+          <button class="btn btn-danger btn-sm " style="position:absolute; top:5px; margin-left: 58px;"  (click)="confirmDeleteProduct(row)"   placement="center" ngbTooltip="ลบรายการ">ลบ</button>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="150"  [canAutoResize]="false" name="ชื่อย่อ" prop="PRODUCT_GROUP_ABBR" ></ngx-datatable-column>
+      <ngx-datatable-column [width]="130" name="กลุ่มสินค้าหลัก" prop="PRODUCT_GROUP_DESC" ></ngx-datatable-column>
+      
+    </ngx-datatable>
+  </div>
+</ion-content>
+
+

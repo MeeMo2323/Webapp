@@ -1,0 +1,84 @@
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/bootstrap.scss';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+
+ion-modal.modalCustomsize {
+    --height: 80%;
+    --width: 80%;
+  }
+
+  ion-popover{
+    ion-backdrop{
+    opacity: 0.5 !important;
+    }
+    .popover-wrapper{
+    .popover-content{
+    width:80vw;
+    max-width:500px;
+    }
+    }
+    }
+
+  :host ::ng-deep .ngx-datatable .datatable-body .datatable-scroll {
+    display: inherit;
+  }
+  .ngx-datatable.material {
+    .datatable-header {
+      .datatable-header-cell {
+        border-right: 5px solid red;
+      }
+    }
+  }
+  
+
+.detail
+{
+    align-content: center;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+  .input-box-container {
+    position: relative;
+  }
+  .input-box {
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 20px;
+    width: 120px;
+  }
+
+  .headerInfo{
+    width:90%
+  }
+
+  .headerInf .Topic{
+    font-size: 15px;
+    position: relative;
+    border: 5px solid red !important;
+
+    font-size:12px;     
+    border-color:#ff3366;
+    border-style: solid;
+    border-width: 3px;
+    width: 300px;
+    height: 50px;
+  }
+
+  .headerInf .Topic .Left{
+      width: 50%;
+      display: inline;
+      border: 1px;
+      float: left;
+  }
+
+   .headerInf .Topic .Right{
+    width: 50%;
+    display:inline;
+    border: 1px;
+    float: right;
+}
+
+
+

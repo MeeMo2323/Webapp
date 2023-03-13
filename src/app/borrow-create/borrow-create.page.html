@@ -1,0 +1,310 @@
+<ion-content>
+  <div class="container">
+    <div class="col-lg-12 mt-2">
+      <div class="row g-3">
+        <div class="col-sm-6">
+          <h4 class="mb-3"> <span
+              class="headerTextLeft">{{this.pBorrow==undefined?"สร้าง":this.pMode=="E"?"แก้ไข":"View"}} -
+              {{resHBorrow.BORROW_TYPE=="B"?"ใบยืม":resHBorrow.BORROW_TYPE=="R"?"ใบเช่า":"ใบยืม/เช่า"}}</span>
+          </h4>
+
+          <div [hidden]="(pMode!='E'&&pMode!='V') || (myAppComp.appProfile.U_ROLE!='approver'&&resHBorrow.BORROW_TYPE=='R')" class="form-check ms-3">
+            <input class="form-check-input" type="checkbox" id="flexCheckDefault" [(ngModel)]="isApproved" id="flexCheckDefault" [disabled]="resHBorrow.STATUS=='CANCELED'">
+            <label class="form-check-label" for="flexCheckDefault">{{resHBorrow.BORROW_TYPE=="B"?"ยืนยัน":resHBorrow.BORROW_TYPE=="R"?"อนุมัติ":""}}</label>
+          </div>
+        </div>
+        <div class="col-sm-6 mt-4">
+          <button type="button" class="btn btn-outline-danger float-end ms-2" (click)="dismiss()">ยกเลิก</button>
+          <button type="button"
+            class="{{resHBorrow.STATUS=='CANCELED'||(resHBorrow.STATUS=='APPROVED'&&myAppComp.appProfile.U_ROLE!='approver'&&resHBorrow.BORROW_TYPE=='R')?'btn btn-outline-secondary float-end':'btn btn-outline-success float-end'}}"
+            (click)="validToSaveData()" [disabled]="resHBorrow.STATUS=='CANCELED'||(resHBorrow.STATUS=='APPROVED'&&myAppComp.appProfile.U_ROLE!='approver'&&resHBorrow.BORROW_TYPE=='R')">บันทึก</button>
+          <button [hidden]="resHBorrow.STATUS!='APPROVED'" type="button"
+            class="btn btn-outline-success me-2 float-end"
+            (click)="viewBorrowForm()">แบบฟอร์ม</button>
+        </div>
+      </div>
+
+      <div class="form-group row mb-1">
+        <label for="CREATE_DATE" class="col-sm-10 col-form-label end-0" style="text-align:right;">วันที่เอกสาร :</label>
+        <div class="col-sm-2">
+          <input type="text" class="form-control" id="CREATE_DATE" [(ngModel)]="resHBorrow.DOC_DATE" name="CREATE_DATE"
+            readonly />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="DOC_NO" class="col-sm-10 col-form-label end-0" style="text-align:right;">เลขที่เอกสาร :</label>
+        <div class="col-sm-2">
+          <input type="text" [(ngModel)]="resHBorrow.DOC_NO" class="form-control" id="DOC_NO" disabled>
+        </div>
+      </div>    
+
+      <div class="row mt-2">
+        <!-- 1st column-->
+        <div class="col-md-6 mb-4">
+          <div class="card mb-4">
+            <div class="card-header py-2">
+              <h5 class="mb-0 mb-1 mt-1">รายละเอียดการ{{resHBorrow.BORROW_TYPE=="B"?"ยืม":resHBorrow.BORROW_TYPE=="R"?"เช่า":"ยืม/เช่า"}}</h5>
+            </div>
+            <div class="card-body">
+              <div class="row mb-1">
+                <div class="col">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="radBORROW_TYPE" id="inlineRadio1" [disabled]="pMode!='E'&&pMode!='C'" [(ngModel)]="resHBorrow.BORROW_TYPE" value="R">
+                    <label class="form-check-label" for="inlineRadio1">เช่า<span style="color:red">*</span></label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="radBORROW_TYPE" id="inlineRadio2" [disabled]="pMode!='E'&&pMode!='C'"  [(ngModel)]="resHBorrow.BORROW_TYPE" value="B">
+                    <label class="form-check-label" for="inlineRadio2">ยืม<span style="color:red">*</span></label>
+                  </div>                                                   
+                </div>    
+                <div class="col">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="radBORROW_LOC" id="inlineRadio3" [disabled]="pMode!='E'&&pMode!='C'" [(ngModel)]="resHBorrow.BORROW_LOC" value="IN">
+                    <label class="form-check-label" for="inlineRadio3">ในสถานที่<span style="color:red">*</span></label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="radBORROW_LOC" id="inlineRadio4" [disabled]="pMode!='E'&&pMode!='C'" [(ngModel)]="resHBorrow.BORROW_LOC" value="EX">
+                    <label class="form-check-label" for="inlineRadio4">นอกสถานที่<span style="color:red">*</span></label>
+                  </div>
+                  <div class="form-control-inline" [hidden]="resHBorrow.BORROW_LOC!='EX'">
+                    <input type="text" id="BORROW_LOC_DESC" class="form-control" [disabled]="pMode!='E'&&pMode!='C'" type="text" [(ngModel)]="resHBorrow.BORROW_LOC_DESC"  placeholder="ระบุสถานที่"  />
+                  </div>                                    
+                </div>                  
+              </div>             
+              <!-- 2 column grid layout with text inputs for the first and last names -->
+              <div class="row mb-1">
+                <div class="col">
+                  <div class="form-outline">
+                    <label class="form-label" for="custName">วันที่รับสินค้า<span style="color:red">*</span></label>
+                    <input type="text" value="{{ resHBorrow.BORROW_FROM | date: 'dd/MM/yyyy' }}" class="form-control"
+                      id="dateFrom" placeholder="ระบุวันที่"
+                      style="{{pMode=='E'||pMode=='C'?'background-color: white;':''}}"
+                      [disabled]="pMode!='C' && pMode!='E'" readonly />
+                    <ion-popover #borrowFrom trigger="dateFrom" size="auto">
+                      <ng-template>
+                        <ion-datetime presentation="dateFrom" [(ngModel)]="resHBorrow.BORROW_FROM" locale="th-TH">
+                        </ion-datetime>
+                      </ng-template>
+                    </ion-popover>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-outline">
+                    <label class="form-label" for="custTel">วันที่จะคืนสินค้า<span style="color:red">*</span></label>
+                    <input type="text" value="{{ resHBorrow.BORROW_TO | date: 'dd/MM/yyyy' }}" class="form-control"
+                      id="dateTo" placeholder="ระบุวันที่"
+                      style="{{pMode=='E'||pMode=='C'?'background-color: white;':''}}"
+                      [disabled]="pMode!='C' && pMode!='E'" readonly />
+                    <ion-popover #borrowTo trigger="dateTo" size="auto">
+                      <ng-template>
+                        <ion-datetime presentation="dateTo" [(ngModel)]="resHBorrow.BORROW_TO" locale="th-TH">
+                        </ion-datetime>
+                      </ng-template>
+                    </ion-popover>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="row mb-1">
+                <div class="col">
+                  <div class="form-outline">
+                    <label class="form-label" for="BORROW_VENDOR">แผนก/กองละคร/อื่นๆ<span style="color:red">*</span></label>
+                    <input type="text" id="BORROW_VENDOR" class="form-control" [disabled]="pMode!='E'&&pMode!='C'" type="text" [(ngModel)]="resHBorrow.BORROW_VENDOR" />
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-outline">
+                    <label class="form-label" for="BORROW_REASON">วัตถุประสงค์การ{{resHBorrow.BORROW_TYPE=="B"?"ยืม":resHBorrow.BORROW_TYPE=="R"?"เช่า":"ยืม/เช่า"}}</label>
+                    <input type="text" id="BORROW_REASON" class="form-control" [disabled]="pMode!='E'&&pMode!='C'" type="text" [(ngModel)]="resHBorrow.BORROW_REASON" />
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- Message input -->
+              <div class="form-outline mb-2">
+                <label class="form-label" for="NOTE">หมายเหตุ</label>
+                <textarea class="form-control" id="NOTE" [disabled]="pMode!='E'&&pMode!='C'" type="text" [(ngModel)]="resHBorrow.NOTE" rows="1"></textarea>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- 2nd column-->
+        <div class="col-md-6 mb-4 ">
+          <div class="card mb-4">
+            <h4 class="card-header py-2 d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">รายละเอียดผู้{{resHBorrow.BORROW_TYPE=="B"?"ยืม":resHBorrow.BORROW_TYPE=="R"?"เช่า":"ยืม/เช่า"}}</h5>
+              <button type="button" (click)="openModalMasterCustomer()" class="btn btn-sm btn-primary" [disabled]="pMode!='E'&&pMode!='C'">รายชื่อ</button>
+            </h4>
+
+            <div class="card-body">
+           
+                <!-- 2 column grid layout with text inputs for the first and last names -->
+                <div class="row mb-1">
+                  <div class="col">
+                    <div class="form-outline">
+                      <label class="form-label" for="custName">ชื่อ-นามสกุล</label>
+                      <input type="text" id="custName" class="form-control" [(ngModel)]="resHBorrow.CUST_NAME"  readonly />
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-outline">
+                      <label class="form-label" for="custTel">โทร.<span style="color:red">*</span></label>
+                      <input type="text" id="custTel" class="form-control" [disabled]="pMode!='E'&&pMode!='C'"  [(ngModel)]="resHBorrow.CUST_TEL"  />
+                    </div>
+                  </div>
+                </div>
+                <!-- Text input -->
+                <div class="row mb-1">
+                  <div class="col">
+                    <div class="form-outline">
+                      <label class="form-label" for="custComp">ชื่อบริษัท</label>
+                      <input type="text" id="custComp" class="form-control"  [(ngModel)]="resHBorrow.CUST_COMPNAME" readonly  />
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-outline">
+                      <label class="form-label" for="taxNo">เลขที่ผู้เสียภาษี</label>
+                      <input type="text" id="taxNo" class="form-control" [disabled]="pMode!='E'&&pMode!='C'" [(ngModel)]="resHBorrow.TAX_NO" readonly />
+                    </div>
+                  </div>
+                </div>
+            
+                <!-- Text input -->
+                <div class="form-outline mb-2">
+                  <label class="form-label" for="custAddr1">ที่อยู่<span style="color:red">*</span></label>
+                  <input type="text" id="custAddr1" class="form-control" [disabled]="pMode!='E'&&pMode!='C'" [(ngModel)]="resHBorrow.CUST_ADDR1"  />
+                </div>
+                <!-- Text input -->
+                <div class="form-outline mb-2">
+                  <input type="text" id="custAddr2" class="form-control" [disabled]="pMode!='E'&&pMode!='C'" [(ngModel)]="resHBorrow.CUST_ADDR2" />
+                </div>
+              
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="detail">
+    <div [hidden]="pMode!='E'&&pMode!='C'">
+      <button type="button" (click)="openModalMasterProduct()" class="btn btn-outline-primary">เพิ่มรายการ</button>
+
+    </div>
+    <ngx-datatable #myTable style="margin-top: 10px;margin-bottom: 10px;" class="bootstrap" [limit]="20" [rows]="resIBorrow"
+      [rowHeight]="40" [columnMode]="'force'" [SortType]="'multi'" [headerHeight]="50" [footerHeight]="50">
+
+      <!-- Row Detail Template -->
+      <ngx-datatable-row-detail [rowHeight]="this.pBorrow==undefined?200:250" #myDetailRow  (toggle)="onDetailToggle($event)">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 " style="margin-top: 1px;">
+            <div class="col">
+              <div class="card shadow-sm">
+                <img class="bd-placeholder-img card-img-to" width="100%" height="150"
+                  src="assets/img-asset/{{row.IMG1}}"
+                  onerror="this.src='assets/img-asset/no-image-available-icon-6.png';">
+                <div class="card-body" [hidden]="row.RECEIVE_IID==''">
+                  <!--<input type="file" class="form-control" id="customFile" #file1 type="file" accept='image/*' (change)="addProductIMG(row,1,file1.files)" />-->
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card shadow-sm">
+                <img class="bd-placeholder-img card-img-to" width="100%" height="150"
+                  src="assets/img-asset/{{row.IMG2}}"
+                  onerror="this.src='assets/img-asset/no-image-available-icon-6.png';">
+                <div class="card-body" [hidden]="row.RECEIVE_IID==''">
+                  <!--<input type="file" class="form-control" id="customFile" #file2 type="file" accept='image/*' (change)="addProductIMG(row,2,file2.files)" />-->
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card shadow-sm">
+                <img class="bd-placeholder-img card-img-to" width="100%" height="150"
+                  src="assets/img-asset/{{row.IMG3}}"
+                  onerror="this.src='assets/img-asset/no-image-available-icon-6.png';">
+                <div class="card-body" [hidden]="row.RECEIVE_IID==''">
+                  <!--<input type="file" class="form-control" id="customFile" #file3 type="file" accept='image/*' (change)="addProductIMG(row,3,file3.files)" />-->
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-row-detail>
+
+      <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
+        [canAutoResize]="false">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <div [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+            title="Expand/Collapse Row">
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [sortable]="false" [canAutoResize]="false" prop="Name" name="" [width]="50"
+        *ngIf="resHBorrow.STATUS==''||resHBorrow.STATUS=='PENDING'">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row" style="top: -5px;">
+          <button [disabled]="pMode!='E'&&pMode!='C'" class="btn btn-danger btn-sm " style="position:absolute; top:5px"
+            placement="center" (click)="confirmDeleteProduct(row)"  ngbTooltip="ลบรายการ">ลบ</button>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [sortable]="false" [canAutoResize]="false" [width]="100" name="รหัสสินค้า"
+        prop="PRODUCT_CODE">
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [sortable]="false" [width]="160" name="ชื่อสินค้า" prop="PRODUCT_DESC">
+      </ngx-datatable-column>
+
+      <ngx-datatable-column  *ngIf="resHBorrow.BORROW_TYPE=='R' && pMode!='C'" [sortable]="false" [canAutoResize]="false" [width]="90" name="ราคาต่อหน่วย"
+        prop="UNIT_PRICE">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <input type="text" [disabled]="(pMode!='E'&&pMode!='C')||myAppComp.appProfile.U_ROLE!='approver'" [(ngModel)]="row.UNIT_PRICE"
+            style="position:absolute; top:5px; width:60px; text-align: right;" />
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [sortable]="false" [canAutoResize]="false" [width]="50" name="จำนวน" prop="QTY">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <input type="text" [disabled]="pMode!='E'&&pMode!='C'" [(ngModel)]="row.QTY"
+            style="position:absolute; top:5px; width:30px;" />
+        </ng-template>
+      </ngx-datatable-column>
+
+      
+      <ngx-datatable-column [sortable]="false" [canAutoResize]="false" [width]="70" name="หน่วยนับ" prop="UOM_DESC">
+      </ngx-datatable-column>
+
+      <ngx-datatable-column *ngIf="resHBorrow.BORROW_TYPE=='R' && pMode!='C'" [sortable]="false" [canAutoResize]="false" [width]="90" name="ราคารวม" prop="UNIT_PRICE">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <input type="text" [disabled]="true" [value]="(row.UNIT_PRICE*row.QTY).toFixed(2)"
+            style="position:absolute; top:5px; width:65px; text-align: right;" />
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [width]="190" [canAutoResize]="false" name="สถานที่ต้นทาง" prop="LOCATION"></ngx-datatable-column>
+      <ngx-datatable-column [sortable]="false" [canAutoResize]="false"  *ngIf="resHBorrow.BORROW_LOC=='IN'" [width]="190" name="สถานที่ปลายทาง" prop="REASON_DESC">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <!--<input type="text" [disabled]="pMode!='E'&&pMode!='C'"style="position:absolute; top:5px; width:100px;" />-->
+          <select [(ngModel)]="row.LOC_ID_TO" [disabled]="pMode!='E'&&pMode!='C'" style="position:absolute; top:5px; height:28px; width: 170px;" required>
+            <option value="">--ระบุสถานที่--</option>
+            <option *ngFor="let item of resLocation" value="{{item.LOC_ID}}">{{item.LOCATION}}</option>
+          </select>
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+
+  </div>
+
+ 
+</ion-content>

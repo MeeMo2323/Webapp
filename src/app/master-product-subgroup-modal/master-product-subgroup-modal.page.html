@@ -1,0 +1,31 @@
+<ion-content>
+  <div class="container">
+    <div class="col-md-7 col-lg-12 mt-2">
+      <div class="row g-3">
+        <div class="col-sm-8"> 
+          <h4 class="mb-3">{{this.oProductSubGroup.PRODUCT_SUBGROUP_ID!=""?"แก้ไขรายการ":"เพิ่มรายการ"}} - กลุ่มสินค้าย่อย</h4>
+        </div>
+        <div class="col-sm-4 "> 
+          <button type="button" class="btn btn-outline-danger float-end ms-2" (click)="dismiss()">ยกเลิก</button>
+          <button type="button" class="btn btn-outline-success float-end" (click)="validToSaveData()" >บันทึก</button>        
+        </div>
+      </div>       
+      <form class="needs-validation mt-4" novalidate>
+        <div class="row g-3">    
+          <div class="col-sm-5">
+            <label for="firstName" class="form-label" style="display: block;">กลุ่มสินค้า(หลัก)</label>
+            <select class="form-select" name="PRODUCT_GROUP_ID"  [(ngModel)] ="oProductSubGroup.PRODUCT_GROUP_ID"  required>
+              <option value="">ระบุกลุ่มสินค้าหลัก</option>
+              <option  *ngFor="let item of resProductGroup" value="{{item.PRODUCT_GROUP_ID}}">{{item.PRODUCT_GROUP_DESC}}</option>
+            </select>
+          </div> 
+          <div class="col-sm-7">
+            <label for="PRODUCT_SUBGROUP_DESC" class="form-label" style="display: block;">ชื่อกลุ่มสินค้าย่อย</label>
+            <input type="text" class="form-control" [disabled]="oProductSubGroup.PRODUCT_GROUP_ID==''" id="PRODUCT_SUBGROUP_DESC" name="PRODUCT_SUBGROUP_DESC" placeholder="" [(ngModel)]="this.oProductSubGroup.PRODUCT_SUBGROUP_DESC" required>
+          </div>          
+        </div>  
+        <!--<hr class="my-4">--> 
+      </form>    
+    </div>  
+  </div>
+</ion-content>

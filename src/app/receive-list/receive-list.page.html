@@ -1,0 +1,80 @@
+<ion-content>
+  <div class="container">
+    <div class="col-md-7 col-lg-12 mt-2">
+      <div class="row g-3">
+        <div class="col-sm-6">
+          <h4 class="mb-3"><span class="headerTextLeft">แก้ไข - ใบรับเข้า</span></h4>
+        </div>
+        <div class="col-sm-6 ">
+          &nbsp;
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row g-3">
+
+      <div class="col-sm-3">
+        <label for="DOC_NO" class="form-label">เลขที่เอกสาร</label>
+        <input type="text" class="form-control" id="DOC_NO" [(ngModel)]="oFilterItems.DOC_NO"
+          (keyup.enter)="setFilteredItems()" placeholder="" required>
+      </div>
+
+      <div class="col-sm-6">
+        <label for="VENDOR" class="form-label">กองละคร</label>
+        <input type="text" class="form-control" id="VENDOR" [(ngModel)]="oFilterItems.VENDOR_DESC"
+          (keyup.enter)="setFilteredItems()" placeholder="" value="" required>
+      </div>
+
+      <div class="col-sm-2">
+        <label for="STATUS" class="form-label">สถานะ</label>
+        <select class="form-select" id="STATUS" [(ngModel)]="oFilterItems.STATUS" required>
+          <option value="">ทั้งหมด</option>
+          <option selected>PENDING</option>
+          <option>CONFIRMED</option>
+          <option>CANCELED</option>
+        </select>
+      </div>
+
+      <div class="col-sm-1">
+        <label for="btnSearch" class="form-label" style="display:block">&nbsp;</label>
+        <button id="btnSearch" type="button" style="bottom:1px;" class="btn btn-outline-primary float-end ms-2"
+          (click)="setFilteredItems()">ค้นหา</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <ngx-datatable style="margin-top: 10px;" class="bootstrap" [limit]="10" [rows]="resReceive" [rowHeight]="45"
+     [columnMode]="'force'" [SortType]="'multi'" [headerHeight]="40" [footerHeight]="40">
+
+    <ngx-datatable-column [sortable]="false" [canAutoResize]="false" prop="Name" name="" [width]="60">
+      <ng-template ngx-datatable-cell-template let-value="value" style="position:absolute; top:5px ;" let-row="row">
+        <button [hidden]="row.STATUS=='CONFIRMED'"
+          class="{{row.STATUS!='PENDING'?'btn btn-secondary btn-sm':'btn btn-primary btn-sm'}}"
+          style="position:absolute; top:5px ;" (click)="openModalReceive(row,'E')" placement="center"
+          ngbTooltip="แก้ไขรายการ">แก้ไข</button>
+        <button [hidden]="row.STATUS=='PENDING'" class="btn btn-warning btn-sm" style="position:absolute; top:5px ;"
+          (click)="openModalReceive(row,'V')" placement="center" ngbTooltip="แก้ไขรายการ">View</button>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [sortable]="false" [canAutoResize]="false" prop="Name" name="" [width]="65">
+      <ng-template ngx-datatable-cell-template let-value="value" style="position:absolute; top:5px ;" let-row="row">
+        <button [disabled]="row.STATUS!='PENDING'"
+          class="{{row.STATUS!='PENDING'?'btn btn-secondary btn-sm':'btn btn-danger btn-sm'}}"
+          style="position:absolute; top:5px ;" (click)="confirmCancel(row)" placement="center"
+          ngbTooltip="แก้ไขรายการ">ยกเลิก</button>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [canAutoResize]="false" [width]="150" name="เลขที่เอกสาร" prop="DOC_NO">
+    </ngx-datatable-column>
+    <ngx-datatable-column [canAutoResize]="false" [width]="150" name="วันที่เอกสาร" prop="DOC_DATE">
+    </ngx-datatable-column>
+    <ngx-datatable-column [canAutoResize]="false" [width]="80" name="ชุดที่" prop="SET_NO"></ngx-datatable-column>
+    <ngx-datatable-column [width]="100" name="กองละคร" prop="VENDOR_DESC"></ngx-datatable-column>
+    <ngx-datatable-column [width]="150" name="สถานะ" prop="STATUS"></ngx-datatable-column>
+
+  </ngx-datatable>
+
+</ion-content>

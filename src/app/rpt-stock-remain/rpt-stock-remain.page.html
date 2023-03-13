@@ -1,0 +1,109 @@
+<ion-content>
+
+  <div class="container">
+    <div class="col-md-7 col-lg-12 mt-2">
+      <div class="row g-3">
+        <div class="col-sm-6">
+          <h4 class="mb-3"><span class="headerTextLeft">รายงาน - Stock คงเหลือ</span></h4>
+        </div>
+        <div class="col-sm-6 ">
+          &nbsp;
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row g-3">      
+      <div class="col-sm-1">
+        <label for="btnSearch" class="form-label" style="display:block">&nbsp;</label>
+        <button id="btnSearch" type="button" style="bottom:1px;" class="btn btn-outline-primary float-end ms-2"
+          (click)="getRPT()">ค้นหา</button>
+      </div>
+      <div class="col-sm-1" [hidden]="!isContainData">
+        <label for="btnSearch" class="form-label" style="display:block">&nbsp;</label>
+        <!--<button id="btnSearch" type="button" style="bottom:1px;" class="btn btn-outline-primary float-end ms-2" (click)="sendToPdf()" >Export</button> -->
+        <button id="btnSearch" type="button" style="bottom:1px;" class="btn btn-outline-primary float-end ms-2"
+          (click)="exportPDF()">Export</button>
+      </div>
+
+    </div>
+
+  </div>
+  <div id="pdfTable" #pdfTable style="padding: 10px;">
+
+    <style>
+      .rptContent {
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: auto;
+        font-family: 'thaisanslite';
+      }
+
+      .rptContent table .mainContent {
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+        width: 95% !important;
+        border: 1px !important;
+        border: 1px solid black !important;
+        border-collapse: collapse !important;
+      }
+
+      .tCaption {
+        font-family: 'thaisanslite' !important;
+        font-size: 25px;
+      }
+
+      .tHeader {
+        border: 1px solid black !important;
+        font-family: 'thaisanslite';
+        font-size: 22px;
+      }
+
+      .tSeparator {
+        height: 15px;
+      }
+    </style>
+
+
+    <div class="rptContent" [hidden]="!isContainData" style="width:98%;margin-left:auto; margin-right:auto;">
+      <span clas="tCaption" style="font-size: 25px;">รายงาน stock คงเหลือ</span>
+          
+      <div class="tSeparator"></div>
+
+      <table style="width:95%;border: 1px solid black; position: relative;  ">
+        <thead style="border: 1px solid black !important;font-family: 'thaisanslite';font-size: 22px;">
+          <tr>
+            <th style="width:20%;border: 1px solid black; text-align: center;">กลุ่มสินค้าหลัก</th>
+            <th style="width:20%;border: 1px solid black; text-align: center;">กลุ่มสินค้าย่อย</th>
+            <th style="width:10%;border: 1px solid black; text-align: center;">CODE</th>
+            <th style="width:20%;border: 1px solid black; text-align: center;">สถานที่</th>
+            <th style="width:10%;border: 1px solid black; text-align: center;">จำนวนรวม</th>
+            <th style="width:10%;border: 1px solid black; text-align: center;">จำนวนในstock</th>
+            <th style="width:10%;border: 1px solid black; text-align: center;">จำนวนในยืม</th>
+          </tr>         
+        </thead>
+        <tbody style=" font-family: 'thaisanslite'; font-size: 20px;">
+          <tr *ngFor="let item of resRptStockRemain let i = index;">
+
+            <td style="border-right: 1px solid black; padding-left: 10px;">{{item.PRODUCT_GROUP_DESC}}</td>
+            <td style="border-right: 1px solid black; padding-left: 10px;">{{item.PRODUCT_SUBGROUP_DESC}}</td>
+            <td style="border-right: 1px solid black;text-align: center;">
+              {{item.LOC_CODE}}</td>
+            <td style="border-right: 1px solid black;padding-left: 10px;">{{item.LOCATION}}</td>
+            <td style="border-right: 1px solid black;text-align: right;padding-right: 10px;">{{item.QTY| number:'1.2-2'}}</td>
+            <td style="border-right: 1px solid black;text-align: right;padding-right: 10px;">{{item.QTY_STOCK| number:'1.2-2'}}</td>
+            <td style="text-align: right;padding-right: 10px;">{{item.QTY_BR| number:'1.2-2'}}</td>
+        
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+
+</ion-content>

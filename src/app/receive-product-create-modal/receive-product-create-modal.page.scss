@@ -1,0 +1,8 @@
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/bootstrap.scss';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+
+
+.ngx-datatable .datatable-header .datatable-header-cell .datatable-header-cell-template-wrap {
+    text-align: center;
+  }

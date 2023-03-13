@@ -1,0 +1,231 @@
+<ion-content>
+
+  <div class="container">
+    <div class="col-lg-12 mt-2">
+      <div class="row g-3">
+        <div class="col-sm-6">
+
+          <h4 class="mb-3"> <span
+              class="headerTextLeft">{{this.pReturn==undefined?"สร้าง":this.pMode=="E"?"แก้ไข":"View"}} -
+              ใบคืน</span></h4>
+
+          <div [hidden]="(pMode!='E'&&pMode!='V')" class="form-check ms-3">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="isConfirmed" id="flexCheckDefault"
+              [disabled]="resHReturn.STATUS=='CANCELED'">
+            <label class="form-check-label" for="flexCheckDefault">ยืนยัน</label>
+          </div>
+        </div>
+        <div class="col-sm-6 mt-4">
+          <button type="button" class="btn btn-outline-danger float-end ms-2" (click)="dismiss()">ยกเลิก</button>
+          <button type="button" [disabled]="resHReturn.STATUS=='CANCELED'"
+            class="{{resHReturn.STATUS=='CANCELED'?'btn btn-outline-secondary float-end':'btn btn-outline-success float-end'}}"
+             (click)="validToSaveData()">บันทึก</button>
+        </div>
+      </div>
+
+      <div class="form-group row mb-1">
+        <label for="CREATE_DATE" class="col-sm-10 col-form-label end-0" style="text-align:right;">วันที่เอกสาร :</label>
+        <div class="col-sm-2">
+          <input type="text" class="form-control" id="CREATE_DATE" [(ngModel)]="resHReturn.DOC_DATE" name="CREATE_DATE"
+            readonly />
+        </div>
+      </div>
+      <div class="form-group row mb-1">
+        <label for="DOC_NO" class="col-sm-10 col-form-label end-0" style="text-align:right;">เลขที่เอกสาร :</label>
+        <div class="col-sm-2">
+          <input type="text" [(ngModel)]="resHReturn.DOC_NO" class="form-control" id="DOC_NO" disabled>
+        </div>
+      </div>
+      <div class="form-group row mb-1">
+        <label for="DOC_NO" class="col-sm-10 col-form-label end-0" style="text-align:right;">วันที่คืนสินค้า :</label>
+        <div class="col-sm-2">
+          <input type="text" value="{{ resHReturn.RETURN_DATE | date: 'dd/MM/yyyy' }}" class="form-control" id="RETURN_DATE"
+            placeholder="ระบุวันที่คืน" style="{{pMode=='E'||pMode=='C'?'background-color: white;':''}}"
+            [disabled]="pMode!='C' && pMode!='E'" readonly />
+
+          <ion-popover #receiveDate trigger="RETURN_DATE" size="auto">
+            <ng-template>
+              <ion-datetime presentation="RETURN_DATE" [(ngModel)]="resHReturn.RETURN_DATE" locale="th-TH">
+              </ion-datetime>
+            </ng-template>
+          </ion-popover>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+
+    <div class="row mt-2">
+      <!-- 1st column-->
+
+
+      <!-- 2nd column-->
+      <div class="col mb-4 ">
+        <div class="card mb-4">
+          <h4 class="card-header py-2 d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">รายละเอียดผู้คืน</h5>
+            <button type="button" class="btn btn-sm btn-primary" (click)="openModalMasterCustomer()"
+              [disabled]="pMode!='E'&&pMode!='C'">รายชื่อ</button>
+          </h4>
+
+          <div class="card-body">
+
+            <!-- 2 column grid layout with text inputs for the first and last names -->
+            <div class="row mb-1">
+              <div class="col-3">
+                <div class="form-outline">
+                  <label class="form-label" for="custName">ชื่อ-นามสกุล</label>
+                  <input type="text" id="custName" class="form-control" [(ngModel)]="resHReturn.CUST_NAME" readonly />
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-outline">
+                  <label class="form-label" for="CUST_TEL">โทร.<span style="color:red">*</span></label>
+                  <input type="text" id="CUST_TEL" class="form-control" [(ngModel)]="resHReturn.CUST_TEL"
+                    [disabled]="pMode!='E'&&pMode!='C'" />
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="form-outline">
+                  <label class="form-label" for="custComp">ชื่อบริษัท</label>
+                  <input type="text" id="custComp" class="form-control" [(ngModel)]="resHReturn.CUST_COMPNAME" readonly />
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-outline">
+                  <label class="form-label" for="taxNo">เลขที่ผู้เสียภาษี</label>
+                  <input type="text" id="taxNo" class="form-control" [(ngModel)]="resHReturn.TAX_NO"
+                    [disabled]="pMode!='E'&&pMode!='C'" readonly />
+                </div>
+              </div>
+            </div>
+
+            <!-- Text input -->
+            <div class="row mb-1">
+              <div class="col-6">
+                <label class="form-label" for="custAddr1">ที่อยู่<span style="color:red">*</span></label>
+                <input type="text" id="custAddr1" class="form-control" [(ngModel)]="resHReturn.CUST_ADDR1"
+                  [disabled]="pMode!='E'&&pMode!='C'" />
+              </div>
+              <div class="col-6">
+                <label class="form-label" for="custAddr1">&nbsp;</label>
+                <input type="text" id="custAddr2" class="form-control" [(ngModel)]="resHReturn.CUST_ADDR2"
+                  [disabled]="pMode!='E'&&pMode!='C'" />
+              </div>
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+
+  </div>
+
+
+  <div class="detail">
+    <div [hidden]="pMode!='E'&&pMode!='C'">
+      <button type="button" (click)="openModalReturnProduct()" class="btn btn-outline-primary">เพิ่มรายการ</button>
+
+    </div>
+    <ngx-datatable #myTable style="margin-top: 10px;" class="bootstrap" [limit]="20" [rows]="resIReturn"
+      [rowHeight]="40" [columnMode]="'force'" [SortType]="'multi'" [headerHeight]="50" [footerHeight]="50">
+
+      <!-- Row Detail Template -->
+      <ngx-datatable-row-detail [rowHeight]="this.pReturn==undefined?200:250" #myDetailRow
+        (toggle)="onDetailToggle($event)">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 " style="margin-top: 1px;">
+            <div class="col">
+              <div class="card shadow-sm">
+                <img class="bd-placeholder-img card-img-to" width="100%" height="150"
+                  src="assets/img-asset/{{row.IMG1}}"
+                  onerror="this.src='assets/img-asset/no-image-available-icon-6.png';">
+               
+              </div>
+            </div>
+            <div class="col">
+              <div class="card shadow-sm">
+                <img class="bd-placeholder-img card-img-to" width="100%" height="150"
+                  src="assets/img-asset/{{row.IMG2}}"
+                  onerror="this.src='assets/img-asset/no-image-available-icon-6.png';">
+               
+              </div>
+            </div>
+            <div class="col">
+              <div class="card shadow-sm">
+                <img class="bd-placeholder-img card-img-to" width="100%" height="150"
+                  src="assets/img-asset/{{row.IMG3}}"
+                  onerror="this.src='assets/img-asset/no-image-available-icon-6.png';">
+             
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-row-detail>
+
+      <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
+        [canAutoResize]="false">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <div [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+            title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [sortable]="false" [canAutoResize]="false" prop="Name" name="" [width]="50"
+        *ngIf="resHReturn.STATUS==''||resHReturn.STATUS=='PENDING'">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row" style="top: -5px;">
+          <button [disabled]="pMode!='E'&&pMode!='C'" class="btn btn-danger btn-sm " style="position:absolute; top:5px"
+            placement="center" (click)="confirmDeleteProduct(row)" ngbTooltip="ลบรายการ">ลบ</button>
+        </ng-template>
+      </ngx-datatable-column>
+
+
+      <ngx-datatable-column [sortable]="false" [canAutoResize]="false" [width]="100" name="เลขที่ใบยืม"
+        prop="BORROW_DOCNO"></ngx-datatable-column>
+      <ngx-datatable-column [sortable]="false" [canAutoResize]="false" [width]="150" name="ชื่อผู้ยืม"
+        prop="CUST_NAME"></ngx-datatable-column>
+      <ngx-datatable-column [sortable]="false" [canAutoResize]="false" [width]="180" name="ชื่อบริษัท"
+        prop="CUST_COMPNAME"></ngx-datatable-column>
+      <ngx-datatable-column [sortable]="false" [canAutoResize]="false" [width]="120" name="รหัสสินค้า"
+        prop="PRODUCT_CODE"></ngx-datatable-column>
+      <ngx-datatable-column [sortable]="false" [width]="160" name="ชื่อสินค้า" prop="PRODUCT_DESC">
+      </ngx-datatable-column>
+      <ngx-datatable-column [sortable]="false" [canAutoResize]="false" [width]="120" name="จำนวนคืน" prop="QTY_RT">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <input type="text" [disabled]="pMode!='E'&&pMode!='C'" [(ngModel)]="row.QTY_RT"
+            style="position:absolute; top:5px; width:30px;" />
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [sortable]="false" [canAutoResize]="false" [width]="70" name="หน่วยนับ" prop="UOM_DESC">
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+
+  </div>
+
+  <div class="container">
+    <div class="col-lg-12 mt-2">
+
+      <div class="mb-3">
+        <label for="lastName" class="form-label">หมายเหตุ</label>
+        <textarea [disabled]="pMode!='E'&&pMode!='C'" type="text" class="form-control" [(ngModel)]="resHReturn.NOTE"
+          rows="3"></textarea>
+      </div>
+
+    </div>
+
+
+
+  </div>
+</ion-content>
